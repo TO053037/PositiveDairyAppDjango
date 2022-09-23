@@ -9,3 +9,5 @@ db_data/global/pg_control
 db_data/pg_stat_tmp/global.stat
 db_data/postmaster.pid
 db_data/base/13757/pg_internal.init
+dairyApp/__pycache__/models.cpython-310.pyc
+.env
