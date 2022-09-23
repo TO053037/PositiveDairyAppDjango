@@ -1,0 +1,3 @@
+gitignore
+db_data/pg_stat_tmp/db_13757.stat
+db_data/pg_stat_tmp/global.stat
