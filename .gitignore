@@ -11,3 +11,104 @@ db_data/postmaster.pid
 db_data/base/13757/pg_internal.init
 dairyApp/__pycache__/models.cpython-310.pyc
 .env
+Skip to content
+Search or jump to…
+Pulls
+Issues
+Marketplace
+Explore
+ 
+@TO053037 
+This repository has been archived by the owner. It is now read-only.
+jpbruinsslot
+/
+docker-django
+Public archive
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+docker-django/.gitignore
+@jpbruinsslot
+jpbruinsslot docker-django: update to new setup
+…
+Latest commit 538e9c5 on 11 Jan 2016
+ History
+ 1 contributor
+57 lines (47 sloc)  695 Bytes
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Vim
+.ropeproject
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
