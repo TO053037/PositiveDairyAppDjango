@@ -33,6 +33,10 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'accounts.User'
 
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
+
 
 # Application definition
 
@@ -62,7 +66,7 @@ ROOT_URLCONF = 'PositiveDairyProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
