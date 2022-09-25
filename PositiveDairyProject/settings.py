@@ -31,7 +31,11 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'dairyApp.User'
+AUTH_USER_MODEL = 'accounts.User'
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dairyApp',
+    'accounts'
 ]
 
 MIDDLEWARE = [
