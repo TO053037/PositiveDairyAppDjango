@@ -31,7 +31,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'dairyApp.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dairyApp',
+    'accounts'
 ]
 
 MIDDLEWARE = [
