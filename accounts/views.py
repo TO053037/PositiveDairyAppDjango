@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm, LoginForm
+from .forms import CustomUserCreationForm, LoginForm
 
 from django.contrib.auth.views import LoginView
 
@@ -31,8 +31,7 @@ def signup(request: HttpRequest):
 
 class Login(LoginView):
     template_name = 'accounts/login.html'
-    form_class =  LoginForm
-
+    form_class = LoginForm
 
 
 def logout_view(request: HttpRequest):
