@@ -10,6 +10,9 @@
 				var calendar = new FullCalendar.Calendar(calendarEl, {
 					initialView: "dayGridMonth",
 				});
+                calendar.on('dateClick', function (info) {
+                    console.log('click on ' + info.dateStr);
+                })
 				calendar.render();
 			});
 		</script>
