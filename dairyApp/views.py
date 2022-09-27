@@ -5,8 +5,5 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @login_required
-def index(request: HttpRequest) -> HttpResponse:
-    if request.user.is_authenticated:
-        return HttpResponse("Yes Hello world")
-    else:
-        return HttpResponse("No Hello World")
+def index(request: HttpRequest):
+    return render(request, 'dairyApp/index.html')
