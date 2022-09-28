@@ -44,6 +44,7 @@ Latest commit 538e9c5 on 11 Jan 2016
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.pyc
 
 # C extensions
 *.so
