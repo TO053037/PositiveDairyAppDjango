@@ -116,3 +116,5 @@ About
 
 db_data/
 dairyApp/__pycache__/views.cpython-310.pyc
+
+.idea/
