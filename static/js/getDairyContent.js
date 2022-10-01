@@ -16,6 +16,8 @@ function getDairyContent(date, ranking) {
                 if (response.status === 200) {
                     console.log(response)
                     document.getElementById('textarea-' + ranking.toString()).value = response.content;
+                } else if (response.status === 404) {
+                    document.getElementById('textarea-' + ranking.toString()).value = '';
                 }
             } else {
                 console.log('error');
