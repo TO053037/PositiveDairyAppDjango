@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest, HttpResponse, Http404, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from .models import DairyContent
 import datetime
 import json
@@ -63,3 +64,19 @@ def get_dairy_content(request: HttpRequest):
                 'status': 404,
             })
     raise Http404('not working')
+
+
+@login_required
+@require_POST
+def delete_dairy_content(request: HttpRequest) -> JsonResponse:
+    try:
+        dairy_content = DairyContent.objects.get(user_object=request.user, content=request.POST.get('content'),
+                                                 ranking=request.POST.get('ranking'), date=request.POST.get('date'))
+        dairy_content.delete()
+        return JsonResponse({
+            'status': 200,
+        })
+    except DairyContent.DoesNotExist:
+        return JsonResponse({
+            'status': 404
+        })
