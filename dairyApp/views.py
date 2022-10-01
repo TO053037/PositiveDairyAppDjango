@@ -49,13 +49,17 @@ def post_dairy_content(request: HttpRequest):
 def get_dairy_content(request: HttpRequest):
     if request.method == 'GET':
         date = request.GET.get('date')
-        print(date)
         ranking = request.GET.get('ranking')
-        content = DairyContent.objects.get(user_object=request.user, ranking=ranking,
-                                           date=datetime.datetime.strptime(request.GET.get('date'),
-                                                                           '%Y-%m-%d').date()).content
-        print(content)
-        return JsonResponse({
-            'content': content
-        })
+        try:
+            content = DairyContent.objects.get(user_object=request.user, ranking=ranking,
+                                               date=datetime.datetime.strptime(request.GET.get('date'),
+                                                                               '%Y-%m-%d').date()).content
+            return JsonResponse({
+                'status': 200,
+                'content': content
+            })
+        except DairyContent.DoesNotExist:
+            return JsonResponse({
+                'status': 404,
+            })
     raise Http404('not working')

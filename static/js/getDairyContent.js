@@ -13,8 +13,10 @@ function getDairyContent(date, ranking) {
     })
         .done(function (response) {
             if (response) {
-                console.log(response)
-                document.getElementById('textarea-' + ranking.toString()).value = response.content;
+                if (response.status === 200) {
+                    console.log(response)
+                    document.getElementById('textarea-' + ranking.toString()).value = response.content;
+                }
             } else {
                 console.log('error');
             }
