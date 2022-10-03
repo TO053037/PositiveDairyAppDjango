@@ -1,7 +1,4 @@
 function getDairyContent(date, ranking) {
-    console.log(date, ranking);
-    console.log(typeof date);
-    console.log(typeof ranking);
     $.ajax({
         'url': getDairyContentUrl,
         'type': 'GET',
@@ -15,9 +12,11 @@ function getDairyContent(date, ranking) {
             if (response) {
                 if (response.status === 200) {
                     console.log(response)
+                    console.log('test');
                     document.getElementById('textarea-' + ranking.toString()).value = response.content;
                 } else if (response.status === 404) {
                     document.getElementById('textarea-' + ranking.toString()).value = '';
+                    console.log(response.message);
                 }
             } else {
                 console.log('error');
