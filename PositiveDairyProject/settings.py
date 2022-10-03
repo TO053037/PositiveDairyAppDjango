@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import environ
 import os
-env = environ.Env()
 
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,7 +36,6 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_URL = 'accounts/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'accounts/login'
-
 
 # Application definition
 
@@ -81,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'PositiveDairyProject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -114,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -128,13 +125,16 @@ USE_TZ = True
 
 DATE_INPUT_FORMATS = ['%Y-%m-%d']
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/images/'
+if DEBUG:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
+else:
+    pass
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
