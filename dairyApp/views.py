@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from .models import DairyContent, PictureCategory, DairyPicture
 from .forms import CategoryForm
@@ -121,6 +121,12 @@ class EditCategoryView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         print(self.kwargs['pk'])
         return reverse_lazy('show_pictures', kwargs={'category_id': self.kwargs['pk']})
+
+
+class DeleteCategoryView(LoginRequiredMixin, DeleteView):
+    model = PictureCategory
+    template_name = 'dairyApp/delete_category.html'
+    success_url = reverse_lazy('show_pictures')
 
 
 class ShowPicturesView(LoginRequiredMixin, ListView):
