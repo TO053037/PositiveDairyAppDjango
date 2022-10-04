@@ -135,16 +135,17 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
     template_name = 'dairyApp/show_pictures.html'
 
     def get_queryset(self):
-        category_id = self.kwargs['category_id']
-        if category_id:
-            try:
-                category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
-                return DairyPicture.objects.filter(user_object=self.request.user,
-                                                   category=category)
-            except PictureCategory.DoesNotExist:
-                raise Http404('not find')
-
-        return DairyPicture.objects.filter(user_object=self.request.user)
+        try:
+            category_id = self.kwargs['category_id']
+            if category_id:
+                try:
+                    category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
+                    return DairyPicture.objects.filter(user_object=self.request.user,
+                                                       category=category)
+                except PictureCategory.DoesNotExist:
+                    raise Http404('not find')
+        except KeyError:
+            return DairyPicture.objects.filter(user_object=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
