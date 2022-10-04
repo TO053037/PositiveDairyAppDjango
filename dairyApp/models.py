@@ -13,10 +13,10 @@ class DairyContent(models.Model):
 
 class PictureCategory(models.Model):
     title = models.CharField(max_length=60, verbose_name='カテゴリーのタイトル')
-    comment = models.TextField(null=True, blank=True)
-    picture_num = models.IntegerField(default=0)
+    comment = models.TextField(null=True, blank=True, max_length='200')
+    picture_count = models.IntegerField(default=0)
     user_object = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="pictureCategory")
+        get_user_model(), on_delete=models.CASCADE, related_name="pictureCategory", blank=True, null=False)
 
 
 class DairyPicture(models.Model):
