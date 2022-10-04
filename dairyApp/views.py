@@ -101,7 +101,7 @@ def delete_dairy_content(request: HttpRequest) -> JsonResponse:
 class CreateCategoryView(LoginRequiredMixin, CreateView):
     model = PictureCategory
     form_class = CategoryForm
-    template_name = 'dairyApp/create_category.html'
+    template_name = 'dairyApp/create_and_edit_category.html'
 
     def form_valid(self, form):
         picture_category = form.save(commit=False)
@@ -115,7 +115,7 @@ class CreateCategoryView(LoginRequiredMixin, CreateView):
 
 class EditCategoryView(LoginRequiredMixin, UpdateView):
     model = PictureCategory
-    template_name = 'dairyApp/create_category.html'
+    template_name = 'dairyApp/create_and_edit_category.html'
     form_class = CategoryForm
 
     def get_success_url(self):
