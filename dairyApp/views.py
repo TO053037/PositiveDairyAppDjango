@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, JsonResponse, Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from .models import DairyContent, PictureCategory, DairyPicture
 from .forms import CategoryForm
@@ -100,7 +101,7 @@ def delete_dairy_content(request: HttpRequest) -> JsonResponse:
 class CreateCategoryView(LoginRequiredMixin, CreateView):
     model = PictureCategory
     form_class = CategoryForm
-    template_name = 'dairyApp/create_category.html'
+    template_name = 'dairyApp/create_and_edit_category.html'
 
     def form_valid(self, form):
         picture_category = form.save(commit=False)
@@ -110,6 +111,16 @@ class CreateCategoryView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return redirect('show_pictures')
+
+
+class EditCategoryView(LoginRequiredMixin, UpdateView):
+    model = PictureCategory
+    template_name = 'dairyApp/create_and_edit_category.html'
+    form_class = CategoryForm
+
+    def get_success_url(self):
+        print(self.kwargs['pk'])
+        return reverse_lazy('show_pictures', kwargs={'category_id': self.kwargs['pk']})
 
 
 class ShowPicturesView(LoginRequiredMixin, ListView):
