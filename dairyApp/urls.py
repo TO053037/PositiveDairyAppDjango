@@ -8,6 +8,6 @@ urlpatterns = [
     path('get_dairy_content/', views.get_dairy_content, name='get_dairy_content'),
     path('delete_dairy_content/', views.delete_dairy_content, name='delete_dairy_content'),
     path('create_category/', views.CreateCategoryView.as_view(), name='create_category'),
-    path('show_pictures/', views.ShowPicturesView.as_view(), name='show_pictures'),
+    path('show_pictures/<int:category_id>', views.ShowPicturesView.as_view(), name='show_pictures'),
 
 ]
