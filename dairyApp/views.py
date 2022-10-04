@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
-from .models import DairyContent
+from django.views.generic.edit import CreateView
+from .models import DairyContent, PictureCategory
+from .forms import CategoryForm
 import datetime
 import json
 
@@ -92,3 +94,20 @@ def delete_dairy_content(request: HttpRequest) -> JsonResponse:
         return JsonResponse({
             'status': 404
         })
+
+
+class CreateCategoryView(LoginRequiredMixin, CreateView):
+    model = PictureCategory
+    form_class = CategoryForm
+    template_name = 'dairyApp/create_category.html'
+
+    def form_valid(self, form):
+        picture_category = form.save(commit=False)
+        picture_category.user_object = self.request.user
+        picture_category.picture_count = 0
+        picture_category.save()
+
+    def get_success_url(self):
+        return redirect('show_pictures')
+
+

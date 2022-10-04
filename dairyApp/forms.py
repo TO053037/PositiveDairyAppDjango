@@ -1,9 +1,10 @@
 from django import forms
-from .models import DairyContent
+from .models import PictureCategory
 
 
-class DairyContentForm(forms.ModelForm):
+class CategoryForm(forms.ModelForm):
     class Meta:
-        model = DairyContent
-        fields = ['content']
+        model = PictureCategory
+        fields = ['title', 'comment']
+
         
