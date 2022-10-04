@@ -137,13 +137,12 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         try:
             category_id = self.kwargs['category_id']
-            if category_id:
-                try:
-                    category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
-                    return DairyPicture.objects.filter(user_object=self.request.user,
-                                                       category=category)
-                except PictureCategory.DoesNotExist:
-                    raise Http404('not find')
+            category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
+            return DairyPicture.objects.filter(user_object=self.request.user,
+                                               category=category)
+        except PictureCategory.DoesNotExist:
+            raise Http404('not find')
+
         except KeyError:
             return DairyPicture.objects.filter(user_object=self.request.user)
 
