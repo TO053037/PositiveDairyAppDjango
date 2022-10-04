@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from .models import DairyContent, PictureCategory, DairyPicture
 from .forms import CategoryForm
@@ -123,22 +123,28 @@ class EditCategoryView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('show_pictures', kwargs={'category_id': self.kwargs['pk']})
 
 
+class DeleteCategoryView(LoginRequiredMixin, DeleteView):
+    model = PictureCategory
+    template_name = 'dairyApp/delete_category.html'
+    success_url = reverse_lazy('show_pictures')
+
+
 class ShowPicturesView(LoginRequiredMixin, ListView):
     model = DairyPicture
     paginate_by = 50
     template_name = 'dairyApp/show_pictures.html'
 
     def get_queryset(self):
-        category_id = self.kwargs['category_id']
-        if category_id:
-            try:
-                category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
-                return DairyPicture.objects.filter(user_object=self.request.user,
-                                                   category=category)
-            except PictureCategory.DoesNotExist:
-                raise Http404('not find')
+        try:
+            category_id = self.kwargs['category_id']
+            category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
+            return DairyPicture.objects.filter(user_object=self.request.user,
+                                               category=category)
+        except PictureCategory.DoesNotExist:
+            raise Http404('not find')
 
-        return DairyPicture.objects.filter(user_object=self.request.user)
+        except KeyError:
+            return DairyPicture.objects.filter(user_object=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
