@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, JsonResponse, Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
@@ -118,12 +118,18 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
     template_name = 'dairyApp/show_pictures.html'
 
     def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        if category_id:
+            try:
+                category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
+                return DairyPicture.objects.filter(user_object=self.request.user,
+                                                   category=category)
+            except PictureCategory.DoesNotExist:
+                raise Http404('not find')
+
         return DairyPicture.objects.filter(user_object=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['picture_categories'] = PictureCategory.objects.filter(user_object=self.request.user)
         return context
-
-
-
