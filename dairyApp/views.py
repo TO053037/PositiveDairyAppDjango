@@ -4,7 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import CreateView
-from .models import DairyContent, PictureCategory
+from django.views.generic.list import ListView
+from .models import DairyContent, PictureCategory, DairyPicture
 from .forms import CategoryForm
 import datetime
 import json
@@ -109,5 +110,20 @@ class CreateCategoryView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return redirect('show_pictures')
+
+
+class ShowPicturesView(LoginRequiredMixin, ListView):
+    model = DairyPicture
+    paginate_by = 50
+    template_name = 'dairyApp/show_pictures.html'
+
+    def get_queryset(self):
+        return DairyPicture.objects.filter(user_object=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['picture_categories'] = PictureCategory.objects.filter(user_object=self.request.user)
+        return context
+
 
 
