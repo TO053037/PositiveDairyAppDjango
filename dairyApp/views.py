@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from .models import DairyContent, PictureCategory, DairyPicture
-from .forms import CategoryForm, PictureForm
+from .forms import CategoryForm, DairyPictureForm
 import datetime
 import json
 
@@ -152,12 +152,10 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
         return context
 
 
-def upload_picture(request: HttpRequest, date: str):
+def create_dairy_picture(request: HttpRequest, date: str):
     if request.method == 'POST':
-        form = PictureForm(request.POST, request.FILES)
-        print(form)
+        form = DairyPictureForm(request.POST, request.FILES)
         if form.is_valid():
-            print('in is_valid func')
             instance_dairy_picture = DairyPicture()
             instance_dairy_picture.title = request.POST['title']
             instance_dairy_picture.comment = request.POST['comment']
@@ -168,5 +166,5 @@ def upload_picture(request: HttpRequest, date: str):
             instance_dairy_picture.save()
             return redirect('index')
     else:
-        form = PictureForm()
+        form = DairyPictureForm()
     return render(request, 'dairyApp/create_picture.html', {'form': form})

@@ -14,7 +14,7 @@ class CategoryForm(forms.ModelForm):
 #         fields = ['title', 'comment', 'image']
 
 
-class PictureForm(forms.Form):
+class DairyPictureForm(forms.Form):
     title = forms.CharField(max_length=60)
     comment = forms.CharField(max_length=200)
     image = forms.FileField()
