@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest, JsonResponse, Http404
+from django.http import HttpRequest, JsonResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from .models import DairyContent, PictureCategory, DairyPicture
-from .forms import CategoryForm
+from .forms import CategoryForm, PictureForm
 import datetime
 import json
 
@@ -150,3 +150,23 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['picture_categories'] = PictureCategory.objects.filter(user_object=self.request.user)
         return context
+
+
+def upload_picture(request: HttpRequest, date: str):
+    if request.method == 'POST':
+        form = PictureForm(request.POST, request.FILES)
+        print(form)
+        if form.is_valid():
+            print('in is_valid func')
+            instance = DairyPicture()
+            instance.title = request.POST['title']
+            instance.comment = request.POST['comment']
+            instance.image = request.FILES['image']
+            instance.user_object = request.user
+            instance.category = None
+            instance.date = create_date_obj(date)
+            instance.save()
+            return redirect('index')
+    else:
+        form = PictureForm()
+    return render(request, 'dairyApp/create_picture.html', {'form': form})

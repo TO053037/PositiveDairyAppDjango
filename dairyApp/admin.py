@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DairyContent, PictureCategory
+from .models import DairyContent, PictureCategory, DairyPicture
 
 
 class AuthorAdmin(admin.ModelAdmin):
@@ -14,3 +14,10 @@ class PictureCategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(PictureCategory, PictureCategoryAdmin)
+
+
+class DairyPictureAdmin(admin.ModelAdmin):
+    list_display = ('user_object', 'title', 'comment', 'image', 'category', 'date')
+
+
+admin.site.register(DairyPicture, DairyPictureAdmin)

@@ -12,4 +12,5 @@ urlpatterns = [
     path('delete_category/<int:pk>', views.DeleteCategoryView.as_view(), name='delete_category'),
     path('show_pictures/', views.ShowPicturesView.as_view(), name='show_pictures'),
     path('show_pictures/<int:category_id>', views.ShowPicturesView.as_view(), name='show_pictures'),
+    path('create_picture/<str:date>', views.upload_picture, name='create_picture'),
 ]
