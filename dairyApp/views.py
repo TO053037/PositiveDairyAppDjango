@@ -152,6 +152,7 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
         return context
 
 
+@login_required
 def create_dairy_picture(request: HttpRequest, date: str):
     if request.method == 'POST':
         form = DairyPictureForm(request.POST, request.FILES)
@@ -161,10 +162,21 @@ def create_dairy_picture(request: HttpRequest, date: str):
             instance_dairy_picture.comment = request.POST['comment']
             instance_dairy_picture.image = request.FILES['image']
             instance_dairy_picture.user_object = request.user
+
+            # TODO: categoryを選択できるようにする
             instance_dairy_picture.category = None
+
             instance_dairy_picture.date = create_date_obj(date)
             instance_dairy_picture.save()
             return redirect('index')
     else:
         form = DairyPictureForm()
     return render(request, 'dairyApp/create_picture.html', {'form': form})
+
+
+class DeleteDairyPictureView(LoginRequiredMixin, DeleteView):
+    model = DairyPicture
+    template_name = 'dairyApp/delete_dairy_picture.html'
+
+    # TODO: redirect先を前にいたページにする
+    success_url = reverse_lazy('index')
