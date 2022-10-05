@@ -36,11 +36,11 @@ def post_dairy_content(request: HttpRequest) -> JsonResponse:
     }
 
     try:
-        dairy_content_obj = DairyContent.objects.get(user_object=request.user,
-                                                     date=create_date_obj(dairy_content['date']),
-                                                     ranking=dairy_content['ranking'], )
-        dairy_content_obj.content = dairy_content['content']
-        dairy_content_obj.save()
+        instance = DairyContent.objects.get(user_object=request.user,
+                                            date=create_date_obj(dairy_content['date']),
+                                            ranking=dairy_content['ranking'], )
+        instance.content = dairy_content['content']
+        instance.save()
     except DairyContent.DoesNotExist:
         DairyContent.objects.create(user_object=request.user, date=create_date_obj(dairy_content['date']),
                                     ranking=dairy_content['ranking'], content=dairy_content['content'])
@@ -86,9 +86,9 @@ def get_dairy_content(request: HttpRequest) -> JsonResponse:
 @require_POST
 def delete_dairy_content(request: HttpRequest) -> JsonResponse:
     try:
-        dairy_content = DairyContent.objects.get(user_object=request.user, content=request.POST.get('content'),
-                                                 ranking=request.POST.get('ranking'), date=request.POST.get('date'))
-        dairy_content.delete()
+        instance = DairyContent.objects.get(user_object=request.user, content=request.POST.get('content'),
+                                            ranking=request.POST.get('ranking'), date=request.POST.get('date'))
+        instance.delete()
         return JsonResponse({
             'status': 200,
         })
@@ -104,10 +104,10 @@ class CreateCategoryView(LoginRequiredMixin, CreateView):
     template_name = 'dairyApp/create_and_edit_category.html'
 
     def form_valid(self, form):
-        picture_category = form.save(commit=False)
-        picture_category.user_object = self.request.user
-        picture_category.picture_count = 0
-        picture_category.save()
+        instance_picture_category = form.save(commit=False)
+        instance_picture_category.user_object = self.request.user
+        instance_picture_category.picture_count = 0
+        instance_picture_category.save()
 
     def get_success_url(self):
         return redirect('show_pictures')
@@ -137,9 +137,9 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         try:
             category_id = self.kwargs['category_id']
-            category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
+            instance_category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
             return DairyPicture.objects.filter(user_object=self.request.user,
-                                               category=category)
+                                               category=instance_category)
         except PictureCategory.DoesNotExist:
             raise Http404('not find')
 
@@ -158,14 +158,14 @@ def upload_picture(request: HttpRequest, date: str):
         print(form)
         if form.is_valid():
             print('in is_valid func')
-            instance = DairyPicture()
-            instance.title = request.POST['title']
-            instance.comment = request.POST['comment']
-            instance.image = request.FILES['image']
-            instance.user_object = request.user
-            instance.category = None
-            instance.date = create_date_obj(date)
-            instance.save()
+            instance_dairy_picture = DairyPicture()
+            instance_dairy_picture.title = request.POST['title']
+            instance_dairy_picture.comment = request.POST['comment']
+            instance_dairy_picture.image = request.FILES['image']
+            instance_dairy_picture.user_object = request.user
+            instance_dairy_picture.category = None
+            instance_dairy_picture.date = create_date_obj(date)
+            instance_dairy_picture.save()
             return redirect('index')
     else:
         form = PictureForm()
