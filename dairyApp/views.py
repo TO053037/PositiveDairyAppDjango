@@ -180,3 +180,13 @@ class DeleteDairyPictureView(LoginRequiredMixin, DeleteView):
 
     # TODO: redirect先を前にいたページにする
     success_url = reverse_lazy('index')
+
+
+class EditDairyPictureView(LoginRequiredMixin, UpdateView):
+    model = DairyPicture
+    template_name = 'dairyApp/create_picture.html'
+    form_class = DairyPictureForm
+
+    def get_success_url(self):
+        # TODO: redirect先を前にいたページにする
+        return reverse_lazy('index')
