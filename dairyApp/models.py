@@ -23,7 +23,7 @@ class DairyPicture(models.Model):
     title = models.CharField(max_length=60, verbose_name='写真のタイトル')
     date = models.DateField(null=False, blank=True)
     image = models.ImageField(upload_to='images')
-    comment = models.TextField(null=True, blank=True)
+    comment = models.TextField(max_length=200, null=True, blank=True)
     category = models.ForeignKey(PictureCategory, on_delete=models.SET_NULL, related_name="dairyPicture", null=True)
     user_object = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="dairyPicture")
