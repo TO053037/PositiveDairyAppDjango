@@ -171,7 +171,7 @@ def create_dairy_picture(request: HttpRequest, date: str):
             return redirect('index')
     else:
         form = DairyPictureForm()
-    return render(request, 'dairyApp/create_picture.html', {'form': form})
+    return render(request, 'dairyApp/create_and_edit_dairy_picture.html', {'form': form})
 
 
 class DeleteDairyPictureView(LoginRequiredMixin, DeleteView):
@@ -184,7 +184,7 @@ class DeleteDairyPictureView(LoginRequiredMixin, DeleteView):
 
 class EditDairyPictureView(LoginRequiredMixin, UpdateView):
     model = DairyPicture
-    template_name = 'dairyApp/create_picture.html'
+    template_name = 'dairyApp/create_and_edit_dairy_picture.html'
     form_class = DairyPictureForm
 
     def get_success_url(self):
