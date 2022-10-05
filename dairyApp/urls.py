@@ -13,5 +13,6 @@ urlpatterns = [
     path('show_pictures/', views.ShowPicturesView.as_view(), name='show_pictures'),
     path('show_pictures/<int:category_id>', views.ShowPicturesView.as_view(), name='show_pictures'),
     path('create_dairy_picture/<str:date>', views.create_dairy_picture, name='create_dairy_picture'),
-    path('delete_dairy_picture/<int:pk>', views.DeleteDairyPictureView.as_view(), name='delete_dairy_picture')
+    path('delete_dairy_picture/<int:pk>', views.DeleteDairyPictureView.as_view(), name='delete_dairy_picture'),
+    path('edit_dairy_picture/<int:pk>', views.EditDairyPictureView.as_view(), name='edit_dairy_picture'),
 ]
