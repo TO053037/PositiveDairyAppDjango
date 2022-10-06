@@ -161,10 +161,14 @@ def create_dairy_picture(request: HttpRequest, date: str):
             instance_dairy_picture.image = request.FILES['image']
             instance_dairy_picture.user_object = request.user
 
-            # TODO: categoryを選択できるようにする
             try:
-                instance_dairy_picture.category = PictureCategory.objects.get(pk=request.POST['category'],
+                category_pk = request.POST['category']
+                instance_dairy_picture.category = PictureCategory.objects.get(pk=category_pk,
                                                                               user_object=request.user)
+                instance_picture_category = PictureCategory.objects.get(pk=category_pk, user_object=request.user)
+                instance_picture_category.picture_count += 1
+                instance_picture_category.save()
+
             except ValueError:
                 instance_dairy_picture.category = None
 
