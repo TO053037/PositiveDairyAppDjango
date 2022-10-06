@@ -126,7 +126,19 @@ class EditCategoryView(LoginRequiredMixin, UpdateView):
 class DeleteCategoryView(LoginRequiredMixin, DeleteView):
     model = PictureCategory
     template_name = 'dairyApp/delete_category.html'
-    success_url = reverse_lazy('show_pictures')
+
+    def get_queryset(self):
+        try:
+            return PictureCategory.objects.filter(pk=self.kwargs['pk'], user_object=self.request.user)
+        except PictureCategory.DoesNotExist:
+            raise Http404('not access')
+
+    def form_valid(self, form):
+        print(self.object.user_object, self.request.user)
+        if self.object.user_object != self.request.user:
+            raise Http404('not access')
+        self.object.delete()
+        return HttpResponseRedirect(reverse_lazy('show_pictures'))
 
 
 class ShowPicturesView(LoginRequiredMixin, ListView):
