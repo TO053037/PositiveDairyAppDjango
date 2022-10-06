@@ -54,8 +54,6 @@ def post_dairy_content(request: HttpRequest) -> JsonResponse:
 def get_dairy_content(request: HttpRequest) -> JsonResponse:
     ranking = request.GET.get('ranking')
     date = request.GET.get('date')
-    print(date)
-    print(ranking)
     if ranking not in ['1', '2', '3']:
         return JsonResponse({
             'status': 404,
@@ -155,7 +153,7 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
 @login_required
 def create_dairy_picture(request: HttpRequest, date: str):
     if request.method == 'POST':
-        form = DairyPictureForm(request.POST, request.FILES)
+        form = DairyPictureForm(request.user, request.POST, request.FILES)
         if form.is_valid():
             instance_dairy_picture = DairyPicture()
             instance_dairy_picture.title = request.POST['title']
@@ -164,13 +162,17 @@ def create_dairy_picture(request: HttpRequest, date: str):
             instance_dairy_picture.user_object = request.user
 
             # TODO: categoryを選択できるようにする
-            instance_dairy_picture.category = None
+            try:
+                instance_dairy_picture.category = PictureCategory.objects.get(pk=request.POST['category'],
+                                                                              user_object=request.user)
+            except ValueError:
+                instance_dairy_picture.category = None
 
             instance_dairy_picture.date = create_date_obj(date)
             instance_dairy_picture.save()
             return redirect('index')
     else:
-        form = DairyPictureForm()
+        form = DairyPictureForm(request.user)
     return render(request, 'dairyApp/create_and_edit_dairy_picture.html', {'form': form})
 
 

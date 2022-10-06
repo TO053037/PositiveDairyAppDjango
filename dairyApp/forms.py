@@ -11,8 +11,12 @@ class CategoryForm(forms.ModelForm):
 class DairyPictureForm(forms.ModelForm):
     class Meta:
         model = DairyPicture
-        fields = ['title', 'comment', 'image']
+        fields = ['title', 'comment', 'image', 'category']
 
+    def __init__(self, user, *args, **kwargs):
+        super(DairyPictureForm, self).__init__(*args, **kwargs)
+        self.fields['category'].queryset = PictureCategory.objects.filter(user_object=user)
+        self.fields['category'].required = False
 
 # class DairyPictureForm(forms.Form):
 #     title = forms.CharField(max_length=60)

@@ -10,6 +10,9 @@ class DairyContent(models.Model):
     user_object = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="dairyContent")
 
+    def __str__(self):
+        return self.content
+
 
 class PictureCategory(models.Model):
     title = models.CharField(max_length=60, verbose_name='カテゴリーのタイトル')
@@ -18,12 +21,19 @@ class PictureCategory(models.Model):
     user_object = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="pictureCategory", blank=True, null=False)
 
+    def __str__(self):
+        return self.title
+
 
 class DairyPicture(models.Model):
     title = models.CharField(max_length=60, verbose_name='写真のタイトル')
     date = models.DateField(null=False, blank=True)
     image = models.ImageField(upload_to='images')
     comment = models.TextField(max_length=200, null=True, blank=True)
-    category = models.ForeignKey(PictureCategory, on_delete=models.SET_NULL, related_name="dairyPicture", null=True)
+    category = models.ForeignKey(PictureCategory, on_delete=models.SET_NULL, related_name="dairyPicture", null=True,
+                                 default=None)
     user_object = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="dairyPicture")
+
+    def __str__(self):
+        return self.title
