@@ -54,8 +54,6 @@ def post_dairy_content(request: HttpRequest) -> JsonResponse:
 def get_dairy_content(request: HttpRequest) -> JsonResponse:
     ranking = request.GET.get('ranking')
     date = request.GET.get('date')
-    print(date)
-    print(ranking)
     if ranking not in ['1', '2', '3']:
         return JsonResponse({
             'status': 404,
@@ -165,7 +163,7 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
 @login_required
 def create_dairy_picture(request: HttpRequest, date: str):
     if request.method == 'POST':
-        form = DairyPictureForm(request.POST, request.FILES)
+        form = DairyPictureForm(request.user, request.POST, request.FILES)
         if form.is_valid():
             instance_dairy_picture = DairyPicture()
             instance_dairy_picture.title = request.POST['title']
@@ -173,14 +171,22 @@ def create_dairy_picture(request: HttpRequest, date: str):
             instance_dairy_picture.image = request.FILES['image']
             instance_dairy_picture.user_object = request.user
 
-            # TODO: categoryを選択できるようにする
-            instance_dairy_picture.category = None
+            try:
+                category_pk = request.POST['category']
+                instance_dairy_picture.category = PictureCategory.objects.get(pk=category_pk,
+                                                                              user_object=request.user)
+                instance_picture_category = PictureCategory.objects.get(pk=category_pk, user_object=request.user)
+                instance_picture_category.picture_count += 1
+                instance_picture_category.save()
+
+            except ValueError:
+                instance_dairy_picture.category = None
 
             instance_dairy_picture.date = create_date_obj(date)
             instance_dairy_picture.save()
             return redirect('index')
     else:
-        form = DairyPictureForm()
+        form = DairyPictureForm(request.user)
     return render(request, 'dairyApp/create_and_edit_dairy_picture.html', {'form': form})
 
 
