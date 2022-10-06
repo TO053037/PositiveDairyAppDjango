@@ -179,7 +179,15 @@ class DeleteDairyPictureView(LoginRequiredMixin, DeleteView):
     template_name = 'dairyApp/delete_dairy_picture.html'
 
     # TODO: redirect先を前にいたページにする
-    success_url = reverse_lazy('index')
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        category = self.object.category
+        if category is not None:
+            category.picture_count -= 1
+            category.save()
+
+        self.object.delete()
+        return HttpResponseRedirect(reverse_lazy('index'))
 
 
 class EditDairyPictureView(LoginRequiredMixin, UpdateView):
