@@ -108,9 +108,7 @@ class CreateCategoryView(LoginRequiredMixin, CreateView):
         instance_picture_category.user_object = self.request.user
         instance_picture_category.picture_count = 0
         instance_picture_category.save()
-
-    def get_success_url(self):
-        return redirect('show_pictures')
+        return HttpResponseRedirect(reverse_lazy('show_pictures'))
 
 
 class EditCategoryView(LoginRequiredMixin, UpdateView):
