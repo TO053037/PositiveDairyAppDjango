@@ -114,8 +114,19 @@ class EditCategoryView(LoginRequiredMixin, UpdateView):
     template_name = 'dairyApp/create_and_edit_category.html'
     form_class = CategoryForm
 
+    def get_queryset(self):
+        try:
+            return PictureCategory.objects.filter(user_object=self.request.user, pk=self.kwargs['pk'])
+        except PictureCategory.DoesNotExist:
+            raise Http404('not access')
+
+    def form_valid(self, form):
+        if self.object.user_object != self.request.user:
+            raise Http404('not access')
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
     def get_success_url(self):
-        print(self.kwargs['pk'])
         return reverse_lazy('show_pictures', kwargs={'category_id': self.kwargs['pk']})
 
 
@@ -194,9 +205,17 @@ class DeleteDairyPictureView(LoginRequiredMixin, DeleteView):
     model = DairyPicture
     template_name = 'dairyApp/delete_dairy_picture.html'
 
+    def get_queryset(self):
+        try:
+            return DairyPicture.objects.filter(user_object=self.request.user, pk=self.kwargs['pk'])
+        except DairyPicture.DoesNotExist:
+            raise Http404('not access')
+
     # TODO: redirect先を前にいたページにする
     def form_valid(self, form):
         success_url = self.get_success_url()
+        if self.request.user != self.object.user_object:
+            raise Http404('not access')
         category = self.object.category
         if category is not None:
             category.picture_count -= 1
@@ -210,6 +229,24 @@ class EditDairyPictureView(LoginRequiredMixin, UpdateView):
     model = DairyPicture
     template_name = 'dairyApp/create_and_edit_dairy_picture.html'
     form_class = DairyPictureForm
+
+    def get_queryset(self):
+        try:
+            return DairyPicture.objects.filter(user_object=self.request.user, pk=self.kwargs['pk'])
+        except DairyPicture.DoesNotExist:
+            raise Http404('not access')
+
+    def form_valid(self, form):
+        if self.request.user != self.object.user_object:
+            raise Http404('not access')
+        if DairyPicture.objects.get(pk=self.kwargs['pk']).category != self.object.category:
+            instance_category = DairyPicture.objects.get(pk=self.kwargs['pk']).category
+            instance_category.picture_count -= 1
+            instance_category.save()
+            instance_category = self.object.category
+            instance_category.picture_count += 1
+            instance_category.save()
+            self.object.save()
 
     def get_success_url(self):
         # TODO: redirect先を前にいたページにする
