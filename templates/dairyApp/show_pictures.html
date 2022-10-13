@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% for item in dairypicture_list %}
-{{ item }}
-{% endfor %}
-{% for category in picture_categories %}
-<li>{{ category.title }}</li>
-{% endfor %}
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    {% for item in dairypicture_list %}
+        {{ item }}
+    {% endfor %}
+    {% for category in picture_categories %}
+        <li>{{ category.title }}</li>
+    {% endfor %}
+{% endblock content %}
