@@ -2,9 +2,9 @@
 
 {% block content %}
     {% for item in dairypicture_list %}
-        {{ item }}
+        <p>{{ item }}</p>
     {% endfor %}
     {% for category in picture_categories %}
-        <li>{{ category.title }}</li>
+        <li><a href="{% url 'show_pictures' category.pk %}">{{ category.title }}</a></li>
     {% endfor %}
 {% endblock content %}
