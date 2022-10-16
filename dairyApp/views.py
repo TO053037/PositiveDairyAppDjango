@@ -251,3 +251,24 @@ class EditDairyPictureView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         # TODO: redirect先を前にいたページにする
         return reverse_lazy('index')
+
+
+@login_required
+@require_GET
+def get_dairy_picture(request: HttpRequest) -> JsonResponse:
+    try:
+        request.GET.get('date')
+    except KeyError:
+        raise Http404
+
+    try:
+        dairy_pictures = DairyPicture.objects.filter(user_object=request.user, date=request.GET.get('date'))
+        dairy_pictures_urls = [picture.image.url for picture in dairy_pictures]
+        return JsonResponse({
+            'status': 200,
+            'pictureUrls': dairy_pictures_urls
+        })
+    except DairyPicture.DoesNotExist:
+        return JsonResponse({
+            'status: 200',
+        })
