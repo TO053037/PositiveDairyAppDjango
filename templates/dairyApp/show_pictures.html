@@ -5,7 +5,7 @@
     <a href="{% url 'edit_category' category_id %}">カテゴリーを編集</a>
     {% endif %}
     {% for item in dairypicture_list %}
-        <p>{{ item }}</p>
+        <img src="{{ item.image.url }}" width="100px" height="100px">
     {% endfor %}
     {% for category in picture_categories %}
         <li><a href="{% url 'show_pictures' category.pk %}">{{ category.title }}</a></li>

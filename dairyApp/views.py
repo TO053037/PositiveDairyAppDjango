@@ -126,11 +126,6 @@ class EditCategoryView(LoginRequiredMixin, UpdateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
-    def get_context_data(self, **kwargs):
-        context = super(EditCategoryView, self).get_context_data()
-        context['edit_category_pk'] = self.kwargs['pk']
-        return context
-
     def get_success_url(self):
         return reverse_lazy('show_pictures', kwargs={'category_id': self.kwargs['pk']})
 
@@ -173,10 +168,7 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['picture_categories'] = PictureCategory.objects.filter(user_object=self.request.user)
-        try:
-            context['category_id'] = self.kwargs['category_id']
-        finally:
-            return context
+        return context
 
 
 @login_required
@@ -256,11 +248,27 @@ class EditDairyPictureView(LoginRequiredMixin, UpdateView):
             instance_category.save()
             self.object.save()
 
-    def get_context_data(self, **kwargs):
-        context = super(EditDairyPictureView, self).get_context_data()
-        context['edit_picture_pk'] = self.kwargs['pk']
-        return context
-
     def get_success_url(self):
         # TODO: redirect先を前にいたページにする
         return reverse_lazy('index')
+
+
+@login_required
+@require_GET
+def get_dairy_picture(request: HttpRequest) -> JsonResponse:
+    try:
+        request.GET.get('date')
+    except KeyError:
+        raise Http404
+
+    try:
+        dairy_pictures = DairyPicture.objects.filter(user_object=request.user, date=request.GET.get('date'))
+        dairy_pictures_urls = [picture.image.url for picture in dairy_pictures]
+        return JsonResponse({
+            'status': 200,
+            'pictureUrls': dairy_pictures_urls
+        })
+    except DairyPicture.DoesNotExist:
+        return JsonResponse({
+            'status: 200',
+        })

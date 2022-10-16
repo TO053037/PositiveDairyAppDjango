@@ -2,7 +2,9 @@ function clickOnCalendarEvent(date) {
     getDairyContent(date, 1);
     getDairyContent(date, 2);
     getDairyContent(date, 3);
+    console.log(getDairyPicture(date));
     addClassDate(date);
+
 }
 
 function createNewClass() {
