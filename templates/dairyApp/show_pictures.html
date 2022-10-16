@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if category_id %}
+    <a href="{% url 'edit_category' category_id %}">カテゴリーを編集</a>
+    {% endif %}
     {% for item in dairypicture_list %}
         <p>{{ item }}</p>
     {% endfor %}

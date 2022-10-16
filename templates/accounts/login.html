@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Login test</h1>
+<button href="{% url 'signup' %}">サインアップ</button>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
