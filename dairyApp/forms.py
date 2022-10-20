@@ -7,6 +7,13 @@ class CategoryForm(forms.ModelForm):
         model = PictureCategory
         fields = ['title', 'comment']
 
+    def __init__(self, *args, **kwargs):
+        super(CategoryForm, self).__init__(*args, **kwargs)
+
+        self.fields['title'].widget.attrs['class'] = 'border-2 border-black py-5 align-middle'
+        self.fields['title'].widget.attrs['rows'] = 1
+        self.fields['comment'].widget.attrs['class'] = 'border-2 border-black py-5 align-middle'
+
 
 class DairyPictureForm(forms.ModelForm):
     class Meta:
@@ -17,6 +24,9 @@ class DairyPictureForm(forms.ModelForm):
         super(DairyPictureForm, self).__init__(*args, **kwargs)
         self.fields['category'].queryset = PictureCategory.objects.filter(user_object=user)
         self.fields['category'].required = False
+        self.fields['category'].widget.attrs['class'] = 'border-2 border-black py-3 align-middle'
+        self.fields['title'].widget.attrs['class'] = 'border-2 border-black py-3 align-middle'
+        self.fields['comment'].widget.attrs['class'] = 'border-2 border-black py-3 align-middle'
 
 # class DairyPictureForm(forms.Form):
 #     title = forms.CharField(max_length=60)
