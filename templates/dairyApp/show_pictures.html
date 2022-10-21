@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if category_id %}
-    <a href="{% url 'edit_category' category_id %}">カテゴリーを編集</a>
-    {% endif %}
-    {% for item in dairypicture_list %}
-        <img src="{{ item.image.url }}" width="100px" height="100px">
-    {% endfor %}
-    {% for category in picture_categories %}
-        <li><a href="{% url 'show_pictures' category.pk %}">{{ category.title }}</a></li>
-    {% endfor %}
+    <div id="content" class="flex">
+        <div id="sidebar" class="w-2/6">
+            <ul>
+                {% for category in picture_categories %}
+                    <li><a href="{% url 'show_pictures' category.pk %}"><p class="text-lg">{{ category.title }}</p></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="main" class="w-4/6">
+            {% if category_id %}
+                <a href="{% url 'edit_category' category_id %}">カテゴリーを編集</a>
+            {% endif %}
+            <ul class="flex flex-wrap list-none">
+                {% for item in dairypicture_list %}
+                    <li class="p-2.5">
+                        <img src="{{ item.image.url }}" width="200px" height="200px">
+                        <a href="{% url 'edit_dairy_picture' item.pk %}">編集</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock content %}

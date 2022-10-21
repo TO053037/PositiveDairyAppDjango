@@ -213,7 +213,6 @@ class DeleteDairyPictureView(LoginRequiredMixin, DeleteView):
 
     # TODO: redirect先を前にいたページにする
     def form_valid(self, form):
-        success_url = self.get_success_url()
         if self.request.user != self.object.user_object:
             raise Http404('not access')
         category = self.object.category
@@ -236,6 +235,11 @@ class EditDairyPictureView(LoginRequiredMixin, UpdateView):
         except DairyPicture.DoesNotExist:
             raise Http404('not access')
 
+    def get_form_kwargs(self):
+        kwargs = super(EditDairyPictureView, self).get_form_kwargs()
+        kwargs.update({'user_object': self.request.user})
+        return kwargs
+
     def form_valid(self, form):
         if self.request.user != self.object.user_object:
             raise Http404('not access')
@@ -247,10 +251,8 @@ class EditDairyPictureView(LoginRequiredMixin, UpdateView):
             instance_category.picture_count += 1
             instance_category.save()
             self.object.save()
-
-    def get_success_url(self):
-        # TODO: redirect先を前にいたページにする
-        return reverse_lazy('index')
+            return HttpResponseRedirect(reverse_lazy('index'))
+        raise Http404('not access')
 
 
 @login_required

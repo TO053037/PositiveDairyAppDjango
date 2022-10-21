@@ -9,7 +9,6 @@ class CategoryForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
-
         self.fields['title'].widget.attrs['class'] = 'border-2 border-black py-5 align-middle'
         self.fields['title'].widget.attrs['rows'] = 1
         self.fields['comment'].widget.attrs['class'] = 'border-2 border-black py-5 align-middle'
@@ -20,9 +19,10 @@ class DairyPictureForm(forms.ModelForm):
         model = DairyPicture
         fields = ['title', 'comment', 'image', 'category']
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
+        self.user_object = kwargs.pop('user_object')
         super(DairyPictureForm, self).__init__(*args, **kwargs)
-        self.fields['category'].queryset = PictureCategory.objects.filter(user_object=user)
+        self.fields['category'].queryset = PictureCategory.objects.filter(user_object=self.user_object)
         self.fields['category'].required = False
         self.fields['category'].widget.attrs['class'] = 'border-2 border-black py-3 align-middle'
         self.fields['title'].widget.attrs['class'] = 'border-2 border-black py-3 align-middle'
