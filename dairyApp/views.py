@@ -243,16 +243,19 @@ class EditDairyPictureView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         if self.request.user != self.object.user_object:
             raise Http404('not access')
+
         if DairyPicture.objects.get(pk=self.kwargs['pk']).category != self.object.category:
             instance_category = DairyPicture.objects.get(pk=self.kwargs['pk']).category
-            instance_category.picture_count -= 1
-            instance_category.save()
+            if instance_category is not None:
+                instance_category.picture_count -= 1
+                instance_category.save()
             instance_category = self.object.category
-            instance_category.picture_count += 1
-            instance_category.save()
-            self.object.save()
-            return HttpResponseRedirect(reverse_lazy('index'))
-        raise Http404('not access')
+            if instance_category is not None:
+                instance_category.picture_count += 1
+                instance_category.save()
+
+        self.object.save()
+        return HttpResponseRedirect(reverse_lazy('index'))
 
 
 @login_required
