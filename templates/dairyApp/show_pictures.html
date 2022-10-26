@@ -5,7 +5,7 @@
         <div id="sidebar" class="w-2/6">
             <ul>
                 {% for category in picture_categories %}
-                    <li><a href="{% url 'show_pictures' category.pk %}"><p class="text-lg">{{ category.title }}</p></a></li>
+                    <li><a class="flex" href="{% url 'show_pictures' category.pk %}"><p class="text-lg mx-3">{{ category.title }}</p><p class="mx-3">{{ category.picture_count }}</p> </a></li>
                 {% endfor %}
             </ul>
         </div>
