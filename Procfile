@@ -1,1 +1,1 @@
-web: gunicorn django_tasklist.wsgi --log-file -
+web: python PositiveDairyAppDjango/manage.py runserver 0.0.0.0:$PORT
