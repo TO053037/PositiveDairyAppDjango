@@ -152,5 +152,7 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CSRF_TRUSTED_ORIGINS = ["https://sheltered-atoll-98800.herokuapp.com"]
+
 import django_heroku
 django_heroku.settings(locals())
