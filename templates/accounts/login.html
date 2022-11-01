@@ -6,6 +6,7 @@
 </head>
 <body>
 <button href="{% url 'signup' %}">サインアップ</button>
+<a href="{% url 'signup' %}">サインアップ</a>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
