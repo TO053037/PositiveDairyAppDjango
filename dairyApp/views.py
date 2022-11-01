@@ -197,7 +197,8 @@ def create_dairy_picture(request: HttpRequest, date: str):
             instance_dairy_picture.save()
             return redirect('index')
     else:
-        form = DairyPictureForm(request.user)
+        print(request.user)
+        form = DairyPictureForm(user_object=request.user)
     return render(request, 'dairyApp/create_and_edit_dairy_picture.html', {'form': form})
 
 
