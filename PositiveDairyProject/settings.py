@@ -27,7 +27,7 @@ env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env.get_value('DEBUG', bool)
 
 ALLOWED_HOSTS = []
 
@@ -135,8 +135,8 @@ DATE_INPUT_FORMATS = ['%Y-%m-%d']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_URL = 'images/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/images/'
 if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 else:
