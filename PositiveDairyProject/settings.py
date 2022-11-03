@@ -142,7 +142,10 @@ if DEBUG:
     
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+    MEDIA_URL = 'http://localhost:8080/images/'
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

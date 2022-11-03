@@ -163,6 +163,9 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
             raise Http404('not find')
 
         except KeyError:
+            print('test')
+            for pic in DairyPicture.objects.all():
+                print(pic.image.url)
             return DairyPicture.objects.filter(user_object=self.request.user)
 
     def get_context_data(self, **kwargs):
