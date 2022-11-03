@@ -139,11 +139,11 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
-    
+
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
-    MEDIA_URL = 'http://localhost:8080/images/'
-
+    MEDIA_URL = env('SITE_URL') + 'images/'
+    # MEDIA_URL = 'http://localhost:8080/images/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
