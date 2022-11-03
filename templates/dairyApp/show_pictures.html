@@ -5,7 +5,9 @@
         <div id="sidebar" class="w-2/6">
             <ul>
                 {% for category in picture_categories %}
-                    <li><a class="flex" href="{% url 'show_pictures' category.pk %}"><p class="text-lg mx-3">{{ category.title }}</p><p class="mx-3">{{ category.picture_count }}</p> </a></li>
+                    <li><a class="flex" href="{% url 'show_pictures' category.pk %}"><p
+                            class="text-lg mx-3">{{ category.title }}</p>
+                        <p class="mx-3">{{ category.picture_count }}</p></a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -16,6 +18,8 @@
             <ul class="flex flex-wrap list-none">
                 {% for item in dairypicture_list %}
                     <li class="p-2.5">
+                        <p>{{ item.title }}</p>
+                        <p>{{ item.image.url }}</p>
                         <img src="{{ item.image.url }}" width="200px" height="200px">
                         <a href="{% url 'edit_dairy_picture' item.pk %}">編集</a>
                     </li>

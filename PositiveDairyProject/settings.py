@@ -136,15 +136,16 @@ DATE_INPUT_FORMATS = ['%Y-%m-%d']
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
 if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+    MEDIA_URL = '/images/'
 
 else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
-    MEDIA_URL = env('SITE_URL') + 'images/'
+    # MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+    MEDIA_ROOT = f'/var/www/{BASE_DIR.name}/images/images'
+    # MEDIA_URL = env('SITE_URL') + 'images/'
     # MEDIA_URL = 'http://localhost:8080/images/'
-
+    MEDIA_URL = '/images/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
