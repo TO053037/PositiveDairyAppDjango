@@ -19,9 +19,9 @@
                 {% for item in dairypicture_list %}
                     <li class="p-2.5">
                         <p>{{ item.title }}</p>
-                        <p>{{ item.image.url }}</p>
                         <img src="{{ item.image.url }}" width="200px" height="200px">
                         <a href="{% url 'edit_dairy_picture' item.pk %}">編集</a>
+                        <a href="{% url 'delete_dairy_picture' item.pk %}">削除</a>
                     </li>
                 {% endfor %}
             </ul>
