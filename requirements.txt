@@ -4,3 +4,4 @@ django-environ
 Pillow
 gunicorn
 django_heroku
+cloudinary
