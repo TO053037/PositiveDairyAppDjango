@@ -14,6 +14,7 @@
             });
             calendar.on('dateClick', function (info) {
                 console.log('click on ' + info.dateStr);
+                console.log('before clickOnCalendarEvent func');
                 clickOnCalendarEvent(info.dateStr);
             })
             calendar.render();
@@ -32,6 +33,7 @@
     <div id="calendar"></div>
     <div id="main" class="py-5">
         <div id="dairy-content-form" class={{ today }}>
+            <p id="show-date" class="flex justify-evenly mb-1">aaaa</p>
             <div id="show-picture">
                 <ul id="show-picture-ul" class="flex justify-evenly"></ul>
             </div>

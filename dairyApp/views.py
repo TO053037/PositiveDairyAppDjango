@@ -37,7 +37,8 @@ def post_dairy_content(request: HttpRequest) -> JsonResponse:
 
     try:
         instance = DairyContent.objects.get(user_object=request.user,
-                                            date=create_date_obj(dairy_content['date']),
+                                            date=create_date_obj(
+                                                dairy_content['date']),
                                             ranking=dairy_content['ranking'], )
         instance.content = dairy_content['content']
         instance.save()
@@ -156,7 +157,8 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         try:
             category_id = self.kwargs['category_id']
-            instance_category = PictureCategory.objects.get(user_object=self.request.user, pk=category_id)
+            instance_category = PictureCategory.objects.get(
+                user_object=self.request.user, pk=category_id)
             return DairyPicture.objects.filter(user_object=self.request.user,
                                                category=instance_category)
         except PictureCategory.DoesNotExist:
@@ -170,7 +172,8 @@ class ShowPicturesView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['picture_categories'] = PictureCategory.objects.filter(user_object=self.request.user)
+        context['picture_categories'] = PictureCategory.objects.filter(
+            user_object=self.request.user)
         return context
 
 
@@ -189,7 +192,8 @@ def create_dairy_picture(request: HttpRequest, date: str):
                 category_pk = request.POST['category']
                 instance_dairy_picture.category = PictureCategory.objects.get(pk=category_pk,
                                                                               user_object=request.user)
-                instance_picture_category = PictureCategory.objects.get(pk=category_pk, user_object=request.user)
+                instance_picture_category = PictureCategory.objects.get(
+                    pk=category_pk, user_object=request.user)
                 instance_picture_category.picture_count += 1
                 instance_picture_category.save()
 
@@ -249,7 +253,8 @@ class EditDairyPictureView(LoginRequiredMixin, UpdateView):
             raise Http404('not access')
 
         if DairyPicture.objects.get(pk=self.kwargs['pk']).category != self.object.category:
-            instance_category = DairyPicture.objects.get(pk=self.kwargs['pk']).category
+            instance_category = DairyPicture.objects.get(
+                pk=self.kwargs['pk']).category
             if instance_category is not None:
                 instance_category.picture_count -= 1
                 instance_category.save()
@@ -271,7 +276,8 @@ def get_dairy_picture(request: HttpRequest) -> JsonResponse:
         raise Http404
 
     try:
-        dairy_pictures = DairyPicture.objects.filter(user_object=request.user, date=request.GET.get('date'))
+        dairy_pictures = DairyPicture.objects.filter(
+            user_object=request.user, date=request.GET.get('date'))
         dairy_pictures_urls = [picture.image.url for picture in dairy_pictures]
         return JsonResponse({
             'status': 200,
