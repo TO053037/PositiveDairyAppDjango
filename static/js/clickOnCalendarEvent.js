@@ -6,6 +6,10 @@ function clickOnCalendarEvent(date) {
     console.log(getDairyPicture(date));
     addClassDate(date);
     show_selected_date(date);
+    deleteAlertMessage(1);
+    deleteAlertMessage(2);
+    deleteAlertMessage(3);
+    
 
 }
 
