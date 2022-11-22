@@ -33,11 +33,8 @@ function postDairyContent(ranking) {
         }
     });
 
-    console.log(ranking);
     let date = document.getElementById('dairy-content-form').className;
-    console.log(date);
     let content = document.getElementById('textarea-' + ranking.toString()).value;
-    console.log(content);
     $.ajax({
         'url': postDairyContentUrl,
         'type': 'POST',
@@ -50,5 +47,6 @@ function postDairyContent(ranking) {
     })
         .done(function (response) {
             console.log('OK');
+            deleteAlertMessage(ranking);
         })
 }
